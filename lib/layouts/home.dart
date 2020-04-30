@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:worldtime/services/worldTime.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     print(data['worldTime']);
 
     //get the background image
@@ -33,8 +34,11 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 FlatButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/choose');
+                  onPressed: () async{
+                    dynamic res = await Navigator.pushNamed(context, '/choose');
+                    setState(() {
+                      data = res;
+                    });
                   },
                   icon: Icon(
                     Icons.edit_location,
